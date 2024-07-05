@@ -35,11 +35,17 @@
 </template>
 <script>
   import { ref, computed } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { cls } from '../../shared/cls.js';
+
   import { MessageClasses } from '../../shared/classes/MessageClasses.js';
+
   import { MessageColors } from '../../shared/colors/MessageColors.js';
-  import { useDarkClasses } from '../shared/use-dark-classes.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { darkClasses } from '../shared/use-dark-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
 
   export default {
     name: 'k-message',
@@ -70,6 +76,9 @@
       avatar: { type: String, default: null },
     },
     setup(props, ctx) {
+      const context = useContext();
+      const useDarkClasses = darkClasses(context);
+      const useThemeClasses = themeClasses(context);
       const elRef = ref(null);
 
       const colors = computed(() =>

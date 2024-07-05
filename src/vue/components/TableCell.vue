@@ -5,10 +5,15 @@
 </template>
 <script>
   import { ref, computed } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { TableCellClasses } from '../../shared/classes/TableCellClasses.js';
+
   import { TableCellColors } from '../../shared/colors/TableCellColors.js';
-  import { useDarkClasses } from '../shared/use-dark-classes.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { darkClasses } from '../shared/use-dark-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
 
   export default {
     name: 'k-table-cell',
@@ -30,6 +35,9 @@
       },
     },
     setup(props, ctx) {
+      const context = useContext();
+      const useDarkClasses = darkClasses(context);
+      const useThemeClasses = themeClasses(context);
       const elRef = ref(null);
       const component = computed(() => (props.header ? 'th' : 'td'));
 

@@ -14,13 +14,22 @@
 </template>
 <script>
   /* eslint-disable no-restricted-globals */
+
   import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
+
   import { cls } from '../../shared/cls.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
+
+  import { useContext } from '../shared/use-context.js';
   import { useTheme } from '../shared/use-theme.js';
+
   import { calcPopoverPosition } from '../../shared/calc-popover-position.js';
-  import { useDarkClasses } from '../shared/use-dark-classes.js';
+
+  import { darkClasses } from '../shared/use-dark-classes.js';
+
   import { PopoverClasses } from '../../shared/classes/PopoverClasses.js';
+
   import { PopoverColors } from '../../shared/colors/PopoverColors.js';
 
   export default {
@@ -55,6 +64,9 @@
     },
     emits: ['backdropclick'],
     setup(props, ctx) {
+      const context = useContext();
+      const useDarkClasses = darkClasses(context);
+      const useThemeClasses = themeClasses(context);
       const elRef = ref(null);
       const angleElRef = ref(null);
       const positions = ref({
@@ -66,7 +78,7 @@
         popoverLeft: 0,
         popoverPosition: 'top-left',
       });
-      const theme = useTheme(props);
+      const theme = useTheme(props, context);
 
       const state = computed(() => (props.opened ? 'opened' : 'closed'));
 

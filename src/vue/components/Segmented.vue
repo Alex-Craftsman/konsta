@@ -12,11 +12,17 @@
 </template>
 <script>
   import { computed, ref, onMounted, onUpdated } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { cls } from '../../shared/cls.js';
+
   import { SegmentedClasses } from '../../shared/classes/SegmentedClasses.js';
+
   import { SegmentedColors } from '../../shared/colors/SegmentedColors.js';
-  import { useDarkClasses } from '../shared/use-dark-classes.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { darkClasses } from '../shared/use-dark-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
 
   export default {
     name: 'k-segmented',
@@ -43,6 +49,9 @@
       rounded: { type: Boolean, default: false },
     },
     setup(props) {
+      const context = useContext();
+      const useDarkClasses = darkClasses(context);
+      const useThemeClasses = themeClasses(context);
       const highlightElRef = ref(null);
       const highlightStyle = ref({
         transform: '',

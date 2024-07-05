@@ -5,8 +5,11 @@
 </template>
 <script>
   import { ref } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { MessagesClasses } from '../../shared/classes/MessagesClasses.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
 
   export default {
     name: 'k-messages',
@@ -29,6 +32,8 @@
       id: String,
     },
     setup(props, ctx) {
+      const context = useContext();
+      const useThemeClasses = themeClasses(context);
       const elRef = ref(null);
 
       const c = useThemeClasses(props, () =>

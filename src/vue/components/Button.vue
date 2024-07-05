@@ -11,13 +11,21 @@
   </component>
 </template>
 <script>
-  import { ref, computed } from 'vue';
+  import { computed, ref } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { cls } from '../../shared/cls.js';
+
   import { useTouchRipple } from '../shared/use-touch-ripple.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
+
   import { useTheme } from '../shared/use-theme.js';
-  import { useDarkClasses } from '../shared/use-dark-classes.js';
+
+  import { darkClasses } from '../shared/use-dark-classes.js';
+
   import { ButtonClasses } from '../../shared/classes/ButtonClasses.js';
+
   import { ButtonColors } from '../../shared/colors/ButtonColors.js';
 
   export default {
@@ -160,6 +168,9 @@
       },
     },
     setup(props, ctx) {
+      const context = useContext();
+      const useDarkClasses = darkClasses(context);
+      const useThemeClasses = themeClasses(context);
       const rippleElRef = ref(null);
       const Component = computed(() => {
         let c = props.component;
@@ -172,9 +183,9 @@
         return c;
       });
 
-      useTouchRipple(rippleElRef, props);
+      useTouchRipple(rippleElRef, props, { context });
 
-      const theme = useTheme();
+      const theme = useTheme({}, context);
 
       const isOutline = computed(() =>
         typeof props.outline === 'undefined'

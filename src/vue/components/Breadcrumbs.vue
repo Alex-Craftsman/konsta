@@ -4,8 +4,10 @@
   </component>
 </template>
 <script>
+  import { useContext } from '../shared/use-context.js';
   import { BreadcrumbsClasses } from '../../shared/classes/BreadcrumbsClasses.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
 
   export default {
     name: 'k-breadcrumbs',
@@ -32,6 +34,8 @@
       },
     },
     setup(props) {
+      const context = useContext();
+      const useThemeClasses = themeClasses(context);
       const c = useThemeClasses(props, () => BreadcrumbsClasses(props));
       return {
         c,

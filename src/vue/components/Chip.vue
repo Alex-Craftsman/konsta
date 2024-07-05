@@ -15,11 +15,17 @@
 </template>
 <script>
   import { computed } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { ChipClasses } from '../../shared/classes/ChipClasses.js';
+
   import { ChipColors } from '../../shared/colors/ChipColors.js';
-  import { useDarkClasses } from '../shared/use-dark-classes.js';
+
+  import { darkClasses } from '../shared/use-dark-classes.js';
+
   import { useTheme } from '../shared/use-theme.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
   import DeleteIcon from './icons/DeleteIcon.vue';
 
   export default {
@@ -54,8 +60,11 @@
     },
     emits: ['delete'],
     setup(props, ctx) {
+      const context = useContext();
+      const useDarkClasses = darkClasses(context);
+      const useThemeClasses = themeClasses(context);
       const style = computed(() => (props.outline ? 'outline' : 'fill'));
-      const theme = useTheme();
+      const theme = useTheme({}, context);
 
       const colors = computed(() =>
         ChipColors(props.colors || {}, useDarkClasses)

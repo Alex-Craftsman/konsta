@@ -76,10 +76,16 @@
 </template>
 <script>
   import { computed } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { NotificationsClasses } from '../../shared/classes/NotificationsClasses.js';
+
   import { NotificationsColors } from '../../shared/colors/NotificationsColors.js';
-  import { useDarkClasses } from '../shared/use-dark-classes.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { darkClasses } from '../shared/use-dark-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
+
   import { useTheme } from '../shared/use-theme.js';
   import DeleteIcon from './icons/DeleteIcon.vue';
 
@@ -121,7 +127,10 @@
     },
     emits: ['close'],
     setup(props, ctx) {
-      const theme = useTheme();
+      const context = useContext();
+      const useDarkClasses = darkClasses(context);
+      const useThemeClasses = themeClasses(context);
+      const theme = useTheme({}, context);
 
       const colors = computed(() =>
         NotificationsColors(props.colors || {}, useDarkClasses)

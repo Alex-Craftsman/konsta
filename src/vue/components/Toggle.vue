@@ -18,10 +18,16 @@
 </template>
 <script>
   import { computed, ref } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { ToggleClasses } from '../../shared/classes/ToggleClasses.js';
+
   import { ToggleColors } from '../../shared/colors/ToggleColors.js';
-  import { useDarkClasses } from '../shared/use-dark-classes.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { darkClasses } from '../shared/use-dark-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
+
   import { useTouchRipple } from '../shared/use-touch-ripple.js';
 
   export default {
@@ -50,10 +56,13 @@
       touchRipple: { type: Boolean, default: true },
     },
     setup(props, ctx) {
+      const context = useContext();
+      const useDarkClasses = darkClasses(context);
+      const useThemeClasses = themeClasses(context);
       const elRef = ref(null);
       const rippleTargetElRef = ref(null);
 
-      useTouchRipple(rippleTargetElRef, props, { eventsElRef: elRef });
+      useTouchRipple(rippleTargetElRef, props, { eventsElRef: elRef, context });
 
       const colors = computed(() =>
         ToggleColors(props.colors || {}, useDarkClasses)

@@ -3,6 +3,7 @@
 </template>
 <script>
   import { computed, provide } from 'vue';
+
   import { useAutoTheme } from './use-auto-theme.js';
 
   export default {
@@ -33,7 +34,6 @@
         dark: props.dark,
         touchRipple: props.touchRipple,
       }));
-
       provide('KonstaContext', KonstaContext);
 
       return {

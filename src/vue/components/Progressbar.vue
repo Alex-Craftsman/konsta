@@ -9,10 +9,15 @@
 </template>
 <script>
   import { computed } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { ProgressbarClasses } from '../../shared/classes/ProgressbarClasses.js';
+
   import { ProgressbarColors } from '../../shared/colors/ProgressbarColors.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
-  import { useDarkClasses } from '../shared/use-dark-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
+
+  import { darkClasses } from '../shared/use-dark-classes.js';
 
   export default {
     name: 'k-progressbar',
@@ -38,6 +43,9 @@
       },
     },
     setup(props) {
+      const context = useContext();
+      const useDarkClasses = darkClasses(context);
+      const useThemeClasses = themeClasses(context);
       const colors = computed(() =>
         ProgressbarColors(props.colors || {}, useDarkClasses)
       );

@@ -29,6 +29,7 @@
   </svg>
 </template>
 <script>
+  import { useContext } from '../../shared/use-context.js';
   import { useTheme } from '../../shared/use-theme.js';
 
   export default {
@@ -39,7 +40,8 @@
       fill: Boolean,
     },
     setup(props) {
-      const theme = useTheme(props);
+      const context = useContext();
+      const theme = useTheme(props, context);
       return {
         theme,
       };

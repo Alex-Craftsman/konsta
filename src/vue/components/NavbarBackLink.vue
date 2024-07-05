@@ -9,10 +9,14 @@
 </template>
 <script>
   import { computed } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { useTheme } from '../shared/use-theme.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
   import kBackIcon from './icons/BackIcon.vue';
   import kLink from './Link.vue';
+
   import { NavbarBackLinkClasses } from '../../shared/classes/NavbarBackLinkClasses.js';
 
   export default {
@@ -47,7 +51,9 @@
       },
     },
     setup(props) {
-      const theme = useTheme(props);
+      const context = useContext();
+      const useThemeClasses = themeClasses(context);
+      const theme = useTheme(props, context);
       const shouldShowText = computed(
         () =>
           (props.showText === 'auto' && theme.value === 'ios') ||

@@ -6,8 +6,10 @@
 </template>
 <script>
   import { computed } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { ActionsClasses } from '../../shared/classes/ActionsClasses.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+  import { themeClasses } from '../shared/use-theme-classes.js';
 
   export default {
     name: 'k-actions',
@@ -29,6 +31,8 @@
     },
     emits: ['backdropclick'],
     setup(props, ctx) {
+      const context = useContext();
+      const useThemeClasses = themeClasses(context);
       const state = computed(() => (props.opened ? 'opened' : 'closed'));
 
       const c = useThemeClasses(props, () =>

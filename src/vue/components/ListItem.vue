@@ -50,13 +50,20 @@
   </component>
 </template>
 <script>
-  import { ref, computed, inject } from 'vue';
+  import { computed, inject, ref } from 'vue';
+  import { useContext } from '../shared/use-context.js';
+
   import { useTheme } from '../shared/use-theme.js';
-  import { useThemeClasses } from '../shared/use-theme-classes.js';
+
+  import { themeClasses } from '../shared/use-theme-classes.js';
+
   import { useTouchRipple } from '../shared/use-touch-ripple.js';
   import ChevronIcon from './icons/ChevronIcon.vue';
-  import { useDarkClasses } from '../shared/use-dark-classes.js';
+
+  import { darkClasses } from '../shared/use-dark-classes.js';
+
   import { ListItemClasses } from '../../shared/classes/ListItemClasses.js';
+
   import { ListItemColors } from '../../shared/colors/ListItemColors.js';
 
   export default {
@@ -133,8 +140,11 @@
       touchRipple: { type: Boolean, default: true },
     },
     setup(props, ctx) {
+      const context = useContext();
+      const useDarkClasses = darkClasses(context);
+      const useThemeClasses = themeClasses(context);
       const rippleElRef = ref(null);
-      const theme = useTheme(props);
+      const theme = useTheme(props, context);
 
       const colors = computed(() =>
         ListItemColors(props.colors || {}, useDarkClasses)
@@ -179,6 +189,7 @@
       );
       useTouchRipple(rippleElRef, props, {
         addCondition: () => isLabel.value || isLink.value,
+        context,
       });
 
       const hrefComputed = computed(() =>
